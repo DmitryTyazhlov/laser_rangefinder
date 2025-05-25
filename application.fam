@@ -1,0 +1,9 @@
+App(
+    appid="laser_rangefinder",
+    name="Laser Rangefinder",
+    apptype=FlipperAppType.EXTERNAL,
+    entry_point="laser_rangefinder_app",
+    requires=["gui"],
+    stack_size=2 * 1024,
+    fap_category="GPIO",
+)

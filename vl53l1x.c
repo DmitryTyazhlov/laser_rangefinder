@@ -6,7 +6,7 @@
 #define VL53L1X_I2C_ADDR (0x29 << 1)
 
 
-bool vl53l1x_write_reg(uint16_t reg, uint8_t value) {
+static bool vl53l1x_write_reg(uint16_t reg, uint8_t value) {
     uint8_t buf[3];
     buf[0] = reg >> 8;
     buf[1] = reg & 0xFF;
@@ -18,7 +18,7 @@ bool vl53l1x_write_reg(uint16_t reg, uint8_t value) {
     return status;
 }
 
-bool vl53l1x_write_reg_16bit(uint16_t reg, uint16_t value) {
+static bool vl53l1x_write_reg_16bit(uint16_t reg, uint16_t value) {
     uint8_t buf[4];
     buf[0] = reg >> 8;
     buf[1] = reg & 0xFF;
@@ -30,18 +30,20 @@ bool vl53l1x_write_reg_16bit(uint16_t reg, uint16_t value) {
     furi_hal_i2c_release(&furi_hal_i2c_handle_external);
     return status;
 }
-uint16_t vl53l1x_read_reg_16bit(uint16_t reg ){
+static uint16_t vl53l1x_read_reg_16bit(uint16_t reg ){
     uint8_t reg_buf[2];
     reg_buf[0] = reg >> 8;
     reg_buf[1] = reg & 0xFF;
     uint8_t data[2] = {0};
     furi_hal_i2c_acquire(&furi_hal_i2c_handle_external);
-    furi_hal_i2c_trx(&furi_hal_i2c_handle_external, VL53L1X_I2C_ADDR, reg_buf, 2, data, 2, 200);
+    if(!furi_hal_i2c_trx(&furi_hal_i2c_handle_external, VL53L1X_I2C_ADDR, reg_buf, 2, data, 2, 200)) {
+        return false;
+    }
     furi_hal_i2c_release(&furi_hal_i2c_handle_external);
     return (data[0] << 8) | data[1];
 }
 
-void set_distance_mode_long(){
+static void set_distance_mode_long(){
     vl53l1x_write_reg(RANGE_CONFIG__VCSEL_PERIOD_A, 0x0F);
     vl53l1x_write_reg(RANGE_CONFIG__VCSEL_PERIOD_B, 0x0D);
     vl53l1x_write_reg(RANGE_CONFIG__VALID_PHASE_HIGH, 0xB8);
@@ -52,9 +54,7 @@ void set_distance_mode_long(){
     vl53l1x_write_reg(SD_CONFIG__INITIAL_PHASE_SD1, 14); // tuning parm default
 }
 
-bool vl53l1x_init(void)
-{
-
+bool vl53l1x_init(void){
 
   vl53l1x_write_reg(SOFT_RESET, 0x00);
   furi_delay_us(100);
@@ -163,7 +163,7 @@ bool vl53l1x_init(void)
 
   // the API triggers this change in VL53L1_init_and_start_range() once a
   // measurement is started; assumes MM1 and MM2 are disabled
-  uint16_t tmp = (vl53l1x_read_reg_16bit(MM_CONFIG__OUTER_OFFSET_MM)) * 4;
+  uint16_t tmp = vl53l1x_read_reg_16bit(MM_CONFIG__OUTER_OFFSET_MM) * 4;
   vl53l1x_write_reg_16bit(ALGO__PART_TO_PART_RANGE_OFFSET_MM, tmp);
 
   return true;

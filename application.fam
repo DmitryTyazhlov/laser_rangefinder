@@ -6,4 +6,10 @@ App(
     requires=["gui"],
     stack_size=2 * 1024,
     fap_category="GPIO",
+    fap_private_libs=[
+      Lib(
+       name = "vl53l1-api",
+       cflags=["-Wno-error"],
+      )
+    ]
 )

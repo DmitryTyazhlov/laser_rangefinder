@@ -77,7 +77,7 @@ int _I2CWrite(VL53L1_DEV Dev, uint8_t *pdata, uint32_t count) {
     int status;
     int i2c_time_out = I2C_TIME_OUT_BASE+ count* I2C_TIME_OUT_BYTE;
     furi_hal_i2c_acquire(Dev->I2cHandle);
-    status = furi_hal_i2c_tx(Dev->I2cHandle, Dev->I2cDevAddr, pdata, count, i2c_time_out);
+    status = !furi_hal_i2c_tx(Dev->I2cHandle, Dev->I2cDevAddr, pdata, count, i2c_time_out);
     furi_hal_i2c_release(Dev->I2cHandle);
     if (status) {
         //VL6180x_ErrLog("I2C error 0x%x %d len", dev->I2cAddr, len);
@@ -90,7 +90,7 @@ int _I2CRead(VL53L1_DEV Dev, uint8_t *pdata, uint32_t count) {
     int status;
     int i2c_time_out = I2C_TIME_OUT_BASE+ count* I2C_TIME_OUT_BYTE;
     furi_hal_i2c_acquire(Dev->I2cHandle);
-    status = furi_hal_i2c_rx(Dev->I2cHandle, Dev->I2cDevAddr|1, pdata, count, i2c_time_out);
+    status = !furi_hal_i2c_rx(Dev->I2cHandle, Dev->I2cDevAddr|1, pdata, count, i2c_time_out);
     furi_hal_i2c_release(Dev->I2cHandle);
     if (status) {
         //VL6180x_ErrLog("I2C error 0x%x %d len", dev->I2cAddr, len);

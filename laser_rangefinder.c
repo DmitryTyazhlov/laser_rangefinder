@@ -50,6 +50,7 @@ int32_t laser_rangefinder_app(void* p) {
     
     
     /*** VL53L1X Initialization ***/
+    VL53L1_software_reset( Dev );
     VL53L1_WaitDeviceBooted( Dev );
     VL53L1_DataInit( Dev );
     VL53L1_StaticInit( Dev );
@@ -69,8 +70,8 @@ int32_t laser_rangefinder_app(void* p) {
         } else {
             VL53L1_WaitMeasurementDataReady( Dev );
             VL53L1_GetRangingMeasurementData( Dev, &RangingData );
-            distance = RangingData.RangeMilliMeter;
             VL53L1_ClearInterruptAndStartMeasurement( Dev );
+            distance = RangingData.RangeMilliMeter;
             view_port_update(view_port);
 
             // sprintf( (char*)buff, "%d, %d, %.2f, %.2f\n\r", RangingData.RangeStatus, RangingData.RangeMilliMeter,

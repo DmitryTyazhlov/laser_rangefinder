@@ -52,9 +52,9 @@
 #define trace_i2c(...) VL53L1_trace_print_module_function(VL53L1_TRACE_MODULE_NONE, VL53L1_TRACE_LEVEL_NONE, VL53L1_TRACE_FUNCTION_I2C, ##__VA_ARGS__)
 #endif
 
-#ifndef HAL_I2C_MODULE_ENABLED
-#warning "HAL I2C module must be enable "
-#endif
+// #ifndef HAL_I2C_MODULE_ENABLED
+// #warning "HAL I2C module must be enable "
+// #endif
 //extern I2C_HandleTypeDef hi2c1;
 //#define VL53L0X_pI2cHandle    (&hi2c1)
 

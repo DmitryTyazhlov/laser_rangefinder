@@ -53,9 +53,9 @@ extern "C" {
  * @return  "Other error code"    See ::VL53L1_Error
  */
 
-VL53L1_Error VL53L1_get_pal_error_string(
-	VL53L1_Error   PalErrorCode,
-	char         *pPalErrorString);
+// VL53L1_Error VL53L1_get_pal_error_string(
+// 	VL53L1_Error   PalErrorCode,
+// 	char         *pPalErrorString);
 
 
 #ifndef VL53L1_USE_EMPTY_STRING

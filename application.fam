@@ -4,6 +4,7 @@ App(
     apptype=FlipperAppType.EXTERNAL,
     entry_point="laser_rangefinder_app",
     requires=["gui"],
+    fap_icon="icon.png",
     stack_size= 2 * 1024,
     fap_category="GPIO",
     sources=["*.c"],

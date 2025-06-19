@@ -12,7 +12,7 @@ void laser_rangefinder_draw_callback(Canvas* canvas, void* context) {
     canvas_clear(canvas);
     canvas_set_font(canvas, FontPrimary);
     char buf[32];
-    snprintf(buf, sizeof(buf), "Distance: %u mm", distance);
+    snprintf(buf, sizeof(buf), "Distance: %.1f cm", ((double)distance/10));
     canvas_draw_str(canvas, 5, 20, buf);
 }
 

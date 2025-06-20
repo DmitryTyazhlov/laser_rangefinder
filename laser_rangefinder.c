@@ -71,7 +71,10 @@ int32_t laser_rangefinder_app(void* p) {
             VL53L1_WaitMeasurementDataReady( Dev );
             VL53L1_GetRangingMeasurementData( Dev, &RangingData );
             VL53L1_ClearInterruptAndStartMeasurement( Dev );
-            if(RangingData.RangeStatus == VL53L1_RANGESTATUS_RANGE_VALID) {
+            if(  (RangingData.RangeStatus == VL53L1_RANGESTATUS_RANGE_VALID) 
+              || (RangingData.RangeStatus == VL53L1_RANGESTATUS_RANGE_VALID_MIN_RANGE_CLIPPED)
+              || (RangingData.RangeStatus == VL53L1_RANGESTATUS_RANGE_VALID_MERGED_PULSE)
+              || (RangingData.RangeStatus == VL53L1_RANGESTATUS_RANGE_VALID_NO_WRAP_CHECK_FAIL)) {
                 distance = RangingData.RangeMilliMeter;
             }
             view_port_update(view_port);
